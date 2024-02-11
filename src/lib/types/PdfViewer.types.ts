@@ -7,6 +7,7 @@ export type IPdfViewerContext = {
   state: IPdfViewerState;
   fns: {
     handleOnLoad: IHandleOnLoad;
+    handleChangeZoom: IHandleChangeZoom;
   };
 };
 export type IPdfDoc = {
@@ -15,5 +16,13 @@ export type IPdfDoc = {
 };
 export type IPdfViewerState = {
   document: IPdfDoc | null;
+  currentZoom: number;
 };
+
+//fns
 export type IHandleOnLoad = ({ pdf }: { pdf: PDFDocumentProxy }) => void;
+export type IHandleChangeZoom = ({
+  zoom,
+}: {
+  zoom: number | (({ pastZoom }: { pastZoom: number }) => number);
+}) => void;

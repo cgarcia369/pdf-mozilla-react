@@ -7,7 +7,7 @@ type ContentProps = Pick<MainProps, "url">;
 const Content = ({ url }: ContentProps) => {
   const {
     fns: { handleOnLoad },
-    state: { document },
+    state: { document, currentZoom },
   } = usePdfViewer();
   return (
     <>
@@ -21,7 +21,13 @@ const Content = ({ url }: ContentProps) => {
         {document && (
           <>
             {Array.from({ length: document.numPages }).map((_, index) => {
-              return <PageStyles key={index} pageNumber={index + 1} />;
+              return (
+                <PageStyles
+                  key={index}
+                  pageNumber={index + 1}
+                  scale={currentZoom}
+                />
+              );
             })}
           </>
         )}

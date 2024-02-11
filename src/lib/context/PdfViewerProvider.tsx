@@ -1,11 +1,11 @@
-import { PropsWithChildren, useMemo, useReducer } from "react";
+import { PropsWithChildren, useCallback, useMemo, useReducer } from "react";
 import {
   initialPdfViewerContext,
   initialPdfViewerState,
 } from "../constants/initial/pdfViewer.initial.ts";
-import { IHandleOnLoad } from "../types/PdfViewer.types.ts";
+import { IHandleChangeZoom, IHandleOnLoad } from "../types/PdfViewer.types.ts";
 import { PdfViewerReducer } from "./PdfViewerReducer.ts";
-import { setPdfViewerState } from "./PdfViewerTypes.ts";
+import { changePdfZoom, setPdfViewerState } from "./PdfViewerTypes.ts";
 import { PdfViewerContext } from "./PdfViewerContext.tsx";
 
 const PdfViewerProvider = ({
@@ -20,6 +20,21 @@ const PdfViewerProvider = ({
       }),
     );
   };
+  const handleChangeZoom: IHandleChangeZoom = useCallback(
+    ({ zoom }) => {
+      const zoomIsFn = typeof zoom === "function";
+      if (!zoomIsFn) {
+        if (zoom === state.currentZoom || zoom < 1) return;
+        dispatch(changePdfZoom(zoom));
+        return;
+      }
+      const newZoom = zoom({ pastZoom: state.currentZoom });
+      if (newZoom === state.currentZoom || newZoom < 1) return;
+      dispatch(changePdfZoom(newZoom));
+    },
+    [state.currentZoom],
+  );
+
   return (
     <PdfViewerContext.Provider
       value={useMemo(
@@ -28,6 +43,7 @@ const PdfViewerProvider = ({
           state,
           fns: {
             handleOnLoad,
+            handleChangeZoom,
           },
         }),
         [state],

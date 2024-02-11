@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PdfViewerConfig } from "../constants/config/pdfViewer.config.ts";
 export const PdfViewerMainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,6 +9,6 @@ export const PdfViewerMainContainer = styled.div`
 export const PdfViewerMainContent = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 1;
+  height: calc(100% - ${PdfViewerConfig.measurement.topNavbar.baseHeight}px);
   width: 100%;
 `;
