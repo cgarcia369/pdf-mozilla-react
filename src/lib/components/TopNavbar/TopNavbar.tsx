@@ -1,13 +1,9 @@
-import React from "react";
+import { TopNavbarMainContainer } from "./styles/TopNavbar.styles.ts";
 
 type TopNavbarProps = {};
 
 const TopNavbar = ({}: TopNavbarProps) => {
-  return (
-    <>
-      <h1>TopNavbar</h1>
-    </>
-  );
+  return <TopNavbarMainContainer></TopNavbarMainContainer>;
 };
 
 export default TopNavbar;

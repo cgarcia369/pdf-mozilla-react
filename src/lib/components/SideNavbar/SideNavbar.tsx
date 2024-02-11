@@ -1,13 +1,9 @@
-import React from "react";
+import { SideNavbarMainContainer } from "./styles/SideNavbar.styles.ts";
 
 type SideNavbarProps = {};
 
 const SideNavbar = ({}: SideNavbarProps) => {
-  return (
-    <>
-      <h1>SideNavbar</h1>
-    </>
-  );
+  return <SideNavbarMainContainer></SideNavbarMainContainer>;
 };
 
 export default SideNavbar;
