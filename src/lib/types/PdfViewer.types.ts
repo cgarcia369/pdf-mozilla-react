@@ -9,6 +9,7 @@ export type IPdfViewerContext = {
     handleOnLoad: IHandleOnLoad;
     handleChangeZoom: IHandleChangeZoom;
   };
+  originalProps: MainProps;
 };
 export type IPdfDoc = {
   numPages: number;

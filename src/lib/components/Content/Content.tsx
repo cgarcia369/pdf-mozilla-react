@@ -1,13 +1,11 @@
-import { MainProps } from "../../types/PdfViewer.types.ts";
 import { usePdfViewer } from "../../context/PdfViewerHook.ts";
 import { DocumentStyles, PageStyles } from "./styles/Content.styles.ts";
 
-type ContentProps = Pick<MainProps, "url">;
-
-const Content = ({ url }: ContentProps) => {
+const Content = () => {
   const {
     fns: { handleOnLoad },
     state: { document, currentZoom },
+    originalProps: { url },
   } = usePdfViewer();
   return (
     <>
