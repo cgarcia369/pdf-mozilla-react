@@ -2,15 +2,22 @@ import { PropsWithChildren, useCallback, useMemo, useReducer } from "react";
 import {
   initialPdfViewerContext,
   initialPdfViewerState,
+  initialProps,
 } from "../constants/initial/pdfViewer.initial.ts";
-import { IHandleChangeZoom, IHandleOnLoad } from "../types/PdfViewer.types.ts";
+import {
+  IHandleChangeZoom,
+  IHandleOnLoad,
+  MainProps,
+} from "../types/PdfViewer.types.ts";
 import { PdfViewerReducer } from "./PdfViewerReducer.ts";
 import { changePdfZoom, setPdfViewerState } from "./PdfViewerTypes.ts";
 import { PdfViewerContext } from "./PdfViewerContext.tsx";
 
 const PdfViewerProvider = ({
   children,
-}: PropsWithChildren<Record<never, never>>) => {
+  ...originalProps
+}: PropsWithChildren<MainProps>) => {
+  originalProps = Object.assign({}, initialProps, originalProps);
   const [state, dispatch] = useReducer(PdfViewerReducer, initialPdfViewerState);
   const handleOnLoad: IHandleOnLoad = ({ pdf }) => {
     dispatch(
@@ -22,14 +29,22 @@ const PdfViewerProvider = ({
   };
   const handleChangeZoom: IHandleChangeZoom = useCallback(
     ({ zoom }) => {
+      const { minZoom, maxZoom } = originalProps;
       const zoomIsFn = typeof zoom === "function";
+      if (!minZoom || !maxZoom) return;
       if (!zoomIsFn) {
-        if (zoom === state.currentZoom || zoom < 1) return;
+        if (zoom === state.currentZoom || zoom < minZoom || zoom > maxZoom)
+          return;
         dispatch(changePdfZoom(zoom));
         return;
       }
       const newZoom = zoom({ pastZoom: state.currentZoom });
-      if (newZoom === state.currentZoom || newZoom < 1) return;
+      if (
+        newZoom === state.currentZoom ||
+        newZoom < minZoom ||
+        newZoom > maxZoom
+      )
+        return;
       dispatch(changePdfZoom(newZoom));
     },
     [state.currentZoom],
@@ -45,6 +60,7 @@ const PdfViewerProvider = ({
             handleOnLoad,
             handleChangeZoom,
           },
+          originalProps,
         }),
         [state],
       )}

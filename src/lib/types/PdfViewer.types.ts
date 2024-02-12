@@ -2,6 +2,8 @@ import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 
 export type MainProps = {
   url: string;
+  maxZoom?: number;
+  minZoom?: number;
 };
 export type IPdfViewerContext = {
   state: IPdfViewerState;
@@ -9,6 +11,7 @@ export type IPdfViewerContext = {
     handleOnLoad: IHandleOnLoad;
     handleChangeZoom: IHandleChangeZoom;
   };
+  originalProps: MainProps;
 };
 export type IPdfDoc = {
   numPages: number;

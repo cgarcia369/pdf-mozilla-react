@@ -6,10 +6,13 @@ import {
 } from "./styles/ZoomControls.styles.ts";
 import { MdAdd, MdHorizontalRule } from "react-icons/md";
 import { usePdfViewer } from "../../../../context/PdfViewerHook.ts";
+import { PdfViewerConfig } from "../../../../constants/config/pdfViewer.config.ts";
 const ZoomControls = () => {
   const {
     fns: { handleChangeZoom },
+    state: { currentZoom },
   } = usePdfViewer();
+
   return (
     <ZoomControlsMainContainer>
       <ActionButton
@@ -31,11 +34,13 @@ const ZoomControls = () => {
         onChange={(e) => {
           handleChangeZoom({ zoom: Number(e.target.value) });
         }}
+        value={currentZoom}
       >
-        <option value="1">100%</option>
-        <option value="2">200%</option>
-        <option value="3">300%</option>
-        <option value="4">400%</option>
+        {PdfViewerConfig.zoom.availableOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </SelectorStyled>
     </ZoomControlsMainContainer>
   );
