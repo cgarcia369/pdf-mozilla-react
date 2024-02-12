@@ -14,15 +14,15 @@ import SideNavbar from "./components/SideNavbar/SideNavbar.tsx";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 type PdfViewerProps = MainProps;
 
-const PdfViewer = ({ url }: PdfViewerProps) => {
+const PdfViewer = ({ ...props }: PdfViewerProps) => {
   return (
     <>
-      <PdfViewerProvider>
+      <PdfViewerProvider {...props}>
         <PdfViewerMainContainer>
           <TopNavbar />
           <PdfViewerMainContent>
             <SideNavbar />
-            <Content url={url} />
+            <Content />
           </PdfViewerMainContent>
         </PdfViewerMainContainer>
       </PdfViewerProvider>

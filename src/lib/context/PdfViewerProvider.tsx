@@ -3,14 +3,19 @@ import {
   initialPdfViewerContext,
   initialPdfViewerState,
 } from "../constants/initial/pdfViewer.initial.ts";
-import { IHandleChangeZoom, IHandleOnLoad } from "../types/PdfViewer.types.ts";
+import {
+  IHandleChangeZoom,
+  IHandleOnLoad,
+  MainProps,
+} from "../types/PdfViewer.types.ts";
 import { PdfViewerReducer } from "./PdfViewerReducer.ts";
 import { changePdfZoom, setPdfViewerState } from "./PdfViewerTypes.ts";
 import { PdfViewerContext } from "./PdfViewerContext.tsx";
 
 const PdfViewerProvider = ({
   children,
-}: PropsWithChildren<Record<never, never>>) => {
+  ...originalProps
+}: PropsWithChildren<MainProps>) => {
   const [state, dispatch] = useReducer(PdfViewerReducer, initialPdfViewerState);
   const handleOnLoad: IHandleOnLoad = ({ pdf }) => {
     dispatch(
@@ -45,6 +50,7 @@ const PdfViewerProvider = ({
             handleOnLoad,
             handleChangeZoom,
           },
+          originalProps,
         }),
         [state],
       )}
