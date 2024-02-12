@@ -7,7 +7,7 @@ import {
 import { MdAdd, MdHorizontalRule } from "react-icons/md";
 import { usePdfViewer } from "../../../../context/PdfViewerHook.ts";
 const ZoomControls = () => {
-  console.log('test conflict');
+  console.log('test adasdasdaaaaaaaaaaaaaaa');
 
 
   const {
